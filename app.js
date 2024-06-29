@@ -5,11 +5,26 @@ import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import logger from "morgan";
 import expressLayouts from 'express-ejs-layouts';
+import mongoose from 'mongoose';
+import * as dotenv from "dotenv";
+dotenv.config()
 
 import indexRouter from "./routes/index.js";
 import productRouter from "./routes/productRouter.js"
 
 const app = express();
+
+mongoose.set("strictQuery", false)
+
+const db = process.env.CONN_LOCAL
+
+async function main(){
+  const conn = await mongoose.connect(db)
+
+  if (conn) console.log("Database successfully connected");
+}
+
+main().catch(err => console.error(err))
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

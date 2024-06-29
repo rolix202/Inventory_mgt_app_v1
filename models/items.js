@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const ItemModel = new mongoose.Schema({
     name: {
@@ -15,6 +15,14 @@ const ItemModel = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: "Category",
         required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    number_in_stock: {
+        type: Number,
+        required: true
     }
 })
 
@@ -24,4 +32,4 @@ ItemModel.virtual("url").get(function(){
 
 const Item = mongoose.model("Item", ItemModel)
 
-export default Item
+export default Item;

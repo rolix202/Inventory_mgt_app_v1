@@ -12,11 +12,11 @@ const CategoryModel = new mongoose.Schema({
     }
 })
 
-Category.virtual("url").get(function(){
+CategoryModel.virtual("url").get(function(){
     return `/category/${this._id}`
 })
 
 const Category = mongoose.model("Category", CategoryModel)
 
-export default Category
+export default Category;
 
