@@ -1,20 +1,26 @@
 <div class="content">
-  <% if (errors){ %>
+  <% if (errors && errors.length > 0){ %>
       <% errors.forEach((error) => { %>
         <div class="alert alert-danger" role="alert">
           <%= error.msg %>
         </div>
       <% }) %>
+  <% } else if (message){ %>
+    <div class="alert alert-success" role="alert">
+      <%= message %>
+    </div>
   <% } %>
+
+  
 
   <form action="" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
       <label for="category_name" class="form-label">Category Name</label>
-      <input type="text" class="form-control" id="category_name" name="category_name" value="<%= category_details ? category_details.category_name : '' %>"/>
+      <input type="text" class="form-control" id="category_name" name="category_name" value="<%= category_details.name || '' %>" required/>
     </div>
     <div class="mb-3">
       <label for="category_description" class="form-label">Description</label>
-      <textarea class="form-control" id="category_description" rows="3" name="category_description"> <%= category_details ? category_details.category_description : '' %> </textarea>
+      <textarea class="form-control" id="category_description" rows="3" name="category_description" required><%= category_details.description || '' %></textarea>
     </div>
     <div class="mb-3">
       <label for="avatar" class="form-label">Category Image</label>

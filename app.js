@@ -8,6 +8,7 @@ import expressLayouts from 'express-ejs-layouts';
 import mongoose from 'mongoose';
 import * as dotenv from "dotenv";
 dotenv.config()
+import cloudinary from "cloudinary"
 
 import indexRouter from "./routes/index.js";
 import productRouter from "./routes/productRouter.js"
@@ -25,6 +26,12 @@ async function main(){
 }
 
 main().catch(err => console.error(err))
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET
+})
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
