@@ -24,7 +24,7 @@ const CategoryModel = new mongoose.Schema({
 CategoryModel.index({ name: 1 }, { unique: true });
 
 CategoryModel.virtual("url").get(function(){
-    return `/category/${this._id}`
+    return `/categories/${this._id}`
 })
 
 const Category = mongoose.model("Category", CategoryModel)

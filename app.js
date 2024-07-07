@@ -12,6 +12,8 @@ import cloudinary from "cloudinary"
 
 import indexRouter from "./routes/index.js";
 import productRouter from "./routes/productRouter.js"
+import categoryRouter from "./routes/categoryRouter.js"
+import itemRouter from "./routes/itemRouter.js"
 
 const app = express();
 
@@ -51,6 +53,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/products', productRouter);
+app.use('/categories', categoryRouter)
+app.use('/items', itemRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

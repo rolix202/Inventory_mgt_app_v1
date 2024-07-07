@@ -23,11 +23,19 @@ const ItemModel = new mongoose.Schema({
     number_in_stock: {
         type: Number,
         required: true
+    },
+    product_public_id: {
+        type: String,
+        required: true
+    },
+    product_secure_url: {
+        type: String,
+        required: true
     }
 })
 
 ItemModel.virtual("url").get(function(){
-    return `/category/item/${this._id}`
+    return `/items/${this._id}`
 })
 
 const Item = mongoose.model("Item", ItemModel)
