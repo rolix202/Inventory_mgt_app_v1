@@ -1,14 +1,16 @@
 <%- include("../partials/header") %>
 
-  <nav class="navbar navbar-expand-lg bg-dark">
-    <div class="container">
-      <a class="navbar-brand bg-white rounded-pill py-2 px-3" href="#">RolixStore</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-        aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon text-white"></span>
+  <nav class="navbar navbar-expand-lg bg-dark" aria-label="Thirteenth navbar example">
+    <div class="container py-2">
+      <div class="col-lg-1">
+        <a class="navbar-brand logo bg-white rounded-pill py-2 px-3 me-0" href="#">RolixStore</a>
+      </div>
+      <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+      <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
+        <ul class="navbar-nav col-lg-10 justify-content-lg-center">
           <li class="nav-item">
             <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
           </li>
@@ -16,9 +18,13 @@
             <a class="nav-link text-white" href="#">Categories</a>
           </li>
         </ul>
+        <div class="d-lg-flex col-lg-1 justify-content-lg-end">
+          
+        </div>
       </div>
     </div>
   </nav>
+
 
   <div class="main">
     <div class="container">
@@ -34,85 +40,19 @@
       <div class="mt-5">
         <div class="row ">
           <div class="col-sm-9">
-
-
-            <div class="row row-cols-1 row-cols-md-3 g-4 px-5">
-
-              <% if (products && products.length> 0){ %>
-
-                <% products.forEach((product)=> { %>
-
-                  <div class="col">
-                    <div class="card h-100 border border-0">
-                      <div class="image_wrapper">
-                        <img src="<%= product.product_secure_url %>" class="card-img-top" alt="<%= product.name %>">
-                      </div>
-                      <div class="card-body p_body">
-                        <div class="product_name_wrapper">
-                          <p class="card-text text-capitalize p_name">
-                            <%= product.name %>
-                          </p>
-                        </div>
-                        <div class="row d-flex align-items-center justify-content-between">
-                          <div class="col">
-                            <p class="card-text fw-bolder price">&#x20A6;<%=" "%><%= product.price.toLocaleString('en-US') %></p>
-                          </div>
-                          <div class=" col text-ennd">
-                                <p class="card-text fw-medium stock_status">In Stock: <%= product.number_in_stock %></p>
-                          </div>
-                        </div>
-                        <div class="add_to_cart">
-                          <button class="btn btn-primary w-100 mt-3">Add to Cart</button>
-                        </div>
-                        <div class="category-wrapper mt-3">
-                          <span class="card-text category">
-                            <%= product.category.name %>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <% }) %>
-                    <% } else { %>
-                      <p>No product found!</p>
-                      <% } %>
-
-
-            </div>
-
+            <%- include("includes/_main_content") %>
           </div>
           <div class="col-sm-3">
-            <h2>About Me</h2>
-            <h5>Photo of me:</h5>
-            <div class="fakeimg">Fake Image</div>
-            <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
-            <h3 class="mt-4">Some Links</h3>
-            <p>Lorem ipsum dolor sit ame.</p>
-            <ul class="nav nav-pills flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Active</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-              </li>
-            </ul>
-            <hr class="d-sm-none">
+            <%- include("includes/_side_bar") %>
           </div>
         </div>
       </div>
-
-      <div class="mt-5 p-4 bg-dark text-white text-center">
-        <p>Footer</p>
-      </div>
-
     </div>
+
+    <div class="mt-5 p-4 bg-dark text-white text-center">
+      <p>Footer</p>
+    </div>
+
   </div>
 
   <%- include("../partials/footer") %>

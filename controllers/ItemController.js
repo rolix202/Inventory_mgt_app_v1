@@ -17,6 +17,7 @@ export const item_create_get = asyncHandler(async(req, res, next) => {
         title: "Add New Product",
         category,
         product_info: {},
+        update: false,
         errors: []
     })
 })
@@ -59,6 +60,7 @@ export const item_create_post = [
                 title: "Add New Product",
                 product_info,
                 category: allCategory,
+                update: false,
                 errors: errorsArray
             })
         }
@@ -80,6 +82,7 @@ export const item_create_post = [
                     title: "Add New Product",
                     product_info,
                     category: allCategory,
+                    update: false,
                     errors: [{msg: "Image upload failed. Try again!"}]
                 })
             }
@@ -101,6 +104,7 @@ export const item_create_post = [
                 title: "Add New Product",
                 product_info,
                 category: allCategory,
+                update: false,
                 errors: [{msg: "Failed to create category. Try again!"}]
             })
         }
@@ -111,9 +115,30 @@ export const item_delete = (req, res, next) => {
     res.send("Delete Item")
 }
 
-export const item_update_get = (req, res, next) => {
-    res.send("update form")
-}
+export const item_update_get = asyncHandler(async(req, res, next) => {
+
+    const [ product_info, categories ] = await Promise.all([
+        Item.findById({_id: req.params.id}).populate("category", "name"),
+        Category.find({}, "name").exec()
+    ])
+
+    for (const category of categories) {
+        if (product_info.category && product_info.category._id.toString() === category._id.toString()) {
+            category.selected = true;
+        }
+    }
+
+    const update = true
+
+    res.render("item_form", {
+        title: "Update Product",
+        product_info,
+        category: categories,
+        update,
+        errors: [],
+        
+    })
+}) 
 
 export const item_update_post = (req, res, next) => {
     res.send("update post form")
@@ -123,8 +148,20 @@ export const item_one_get = (req, res, next) => {
     res.send("each item get")
 }
 
-export const item_all_get = (req, res, next) => {
-    res.send("all item")
-}
+export const item_all_get = asyncHandler(async(req, res, next) => {
+
+    const products = await Item.find().sort({name: 1}).populate("category", "name")
+
+    if (products === null){
+        const err = new Error("No Products found!")
+        err.status = 404
+        return next(err)
+    }
+
+    res.render("all_items", {
+        title: "All Products",
+        products
+    })
+}) 
 
 

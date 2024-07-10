@@ -10,16 +10,16 @@
 
     <form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
-            <label for="name" class="form-label">Product Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="<%= product_info.name || '' %>"/>
+            <label for="name" class="form-label text-primary">Product Name:</label>
+            <input type="text" class="form-control text-capitalize" id="name" name="name" value="<%= product_info.name || '' %>"/>
         </div>
         <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" rows="3" name="description"><%= product_info.description || "" %></textarea>
+            <label for="description" class="form-label text-primary">Description:</label>
+            <textarea class="form-control text-capitalize" id="description" rows="3" name="description"><%= product_info.description || "" %></textarea>
         </div>
         <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <select class="form-select" name="category" id="category">
+            <label for="category" class="form-label text-primary">Category:</label>
+            <select class="form-select text-capitalize" name="category" id="category">
                 <option value="">Select product category ...</option>
                 <% if (category){ %>
                     <% category.forEach((cat)=> { %> <% 
@@ -33,20 +33,25 @@
 
         <div class="row">
             <div class="col">
-                <label for="price" class="form-label">Price</label>
+                <label for="price" class="form-label text-primary">Price:</label>
                 <input type="number" class="form-control" id="price" min="1" name="price" value="<%= product_info.price || '' %>"/>
             </div>
             <div class="col">
-                <label for="number_in_stock" class="form-label">No. in Stock</label>
+                <label for="number_in_stock" class="form-label text-primary">No. in Stock:</label>
                 <input type="number" class="form-control" id="number_in_stock" min="0" name="number_in_stock" value="<%= product_info.number_in_stock || '' %>"/>
             </div>
         </div>
 
         <div class="mb-3">
-            <label for="avatar" class="form-label">Category Image</label>
+            <label for="avatar" class="form-label text-primary">Category Image:</label>
             <input type="file" accept="image/*" class="form-control" id="avatar" name="avatar" />
         </div>
 
-        <button class="btn btn-primary btn-large">Add Product</button>
+        <% if (update) { %>
+            <a href="/items" class="btn btn-danger btn-large">Cancel</a>
+            <button class="btn btn-primary btn-large">Update Product</button>
+        <% } else { %>
+            <button class="btn btn-primary btn-large">Add Product</button>
+        <% } %>
     </form>
 </div>

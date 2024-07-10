@@ -21,6 +21,7 @@ export const index = asyncHandler(async (req, res, next) => {
         {
             $project: {
                 name: 1,
+                category_image_secure_id: 1,
                 itemCount: {
                     $size: "$items"
                 }
@@ -28,11 +29,14 @@ export const index = asyncHandler(async (req, res, next) => {
         }
     ])
 
-    const products = await Item.find({}, "name price number_in_stock product_secure_url").populate("category", "name").exec()
+    categoriesWithCount.forEach((category) => {
+        category.url = `/categories/${category._id}`
+    })
 
+    const products = await Item.find({}, "name price number_in_stock product_secure_url").populate("category", "name").sort({name: 1}).exec()
     res.render("homepage/index", { 
         layout: false,
-        categoriesWithCount,
+        categories: categoriesWithCount,
         products
     })
 })
@@ -135,3 +139,6 @@ export const category_one_get = (req, res, next) => {
 export const category_all_get = (req, res, next) => {
     res.send("Get all category")
 }
+
+
+

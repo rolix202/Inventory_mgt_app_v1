@@ -33,9 +33,9 @@
     border-top: 2px solid rgb(235, 229, 229);
     margin: 0 20px;
 }
-.navbar-toggler{
+/* .navbar-toggler{
     background-color: #F2F2F2;
-}
+} */
 .image_wrapper {
     padding: 10px;
     height: 200px;
@@ -104,4 +104,7 @@
   }
   .add_to_cart button{
     font-family: 'Sans-serif', cursive;;
+  }
+  .logo{
+    background-color: none !important;
   }
