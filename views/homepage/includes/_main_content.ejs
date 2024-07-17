@@ -7,13 +7,17 @@
         <% const randomColor = backgroundColors[index % backgroundColors.length]; %>
         <div class="col">
           <div class="card h-100 border border-0">
-            <div class="image_wrapper">
-              <img src="<%= product.product_secure_url %>" class="card-img-top" alt="<%= product.name %>">
-            </div>
+            <a href="<%= product.url %>">
+              <div class="image_wrapper">
+                <img src="<%= product.product_secure_url %>" class="card-img-top" alt="<%= product.name %>">
+              </div>
+            </a>
+            
             <div class="card-body p_body">
               <div class="product_name_wrapper">
                 <p class="card-text text-capitalize p_name">
-                  <%= product.name %>
+                    <a href="<%= product.url %>"><%= product.name %></a>
+                  
                 </p>
               </div>
               <div class="row d-flex align-items-center justify-content-between">

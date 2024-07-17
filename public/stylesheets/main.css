@@ -91,7 +91,7 @@
     color: #28a745;
   }
   
-  .card-body {
+  .p-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -103,8 +103,33 @@
     transition: box-shadow 0.3s ease-in-out;
   }
   .add_to_cart button{
-    font-family: 'Sans-serif', cursive;;
+    font-family: 'Sans-serif', cursive;
   }
   .logo{
     background-color: none !important;
+  }
+  /* .category_card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  } */
+  .cat_img{
+    background-color: #AEC6CF;
+  }
+
+  .category_card {
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .category_card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .img_update{
+    background-color: #a1a2eec7;
+    border-radius: 50%;
+    height: 160px;
+    width: 160px;
   }

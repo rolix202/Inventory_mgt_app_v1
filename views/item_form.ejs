@@ -1,57 +1,111 @@
 <div class="content">
-
-    <% if (errors && errors.length > 0){ %>
-        <% errors.forEach((error) => { %>
+    <% if (errors && errors.length> 0){ %>
+        <% errors.forEach((error)=> { %>
             <div class="alert alert-danger" role="alert">
                 <%= error.msg %>
-              </div>
-        <% }) %>
-    <% } %>
-
-    <form method="POST" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="name" class="form-label text-primary">Product Name:</label>
-            <input type="text" class="form-control text-capitalize" id="name" name="name" value="<%= product_info.name || '' %>"/>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label text-primary">Description:</label>
-            <textarea class="form-control text-capitalize" id="description" rows="3" name="description"><%= product_info.description || "" %></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="category" class="form-label text-primary">Category:</label>
-            <select class="form-select text-capitalize" name="category" id="category">
-                <option value="">Select product category ...</option>
-                <% if (category){ %>
-                    <% category.forEach((cat)=> { %> <% 
-                        const product_name=cat.name.split(" ").map((el)=>el.charAt(0).toUpperCase() + el.slice(1)).join(" ") %>
-                        <option value="<%= cat._id %>" <%= cat.selected ? 'selected' : '' %>><%= product_name %></option>
-
-                    <% }) %>
+            </div>
+            <% }) %>
                 <% } %>
-            </select>
-        </div>
 
-        <div class="row">
-            <div class="col">
-                <label for="price" class="form-label text-primary">Price:</label>
-                <input type="number" class="form-control" id="price" min="1" name="price" value="<%= product_info.price || '' %>"/>
-            </div>
-            <div class="col">
-                <label for="number_in_stock" class="form-label text-primary">No. in Stock:</label>
-                <input type="number" class="form-control" id="number_in_stock" min="0" name="number_in_stock" value="<%= product_info.number_in_stock || '' %>"/>
-            </div>
-        </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="name" class="form-label text-primary">Product Name:</label>
+                            <input type="text" class="form-control text-capitalize" id="name" name="name"
+                                value="<%= product_info.name || '' %>" />
+                        </div>
 
-        <div class="mb-3">
-            <label for="avatar" class="form-label text-primary">Category Image:</label>
-            <input type="file" accept="image/*" class="form-control" id="avatar" name="avatar" />
-        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label text-primary">Description:</label>
+                            <textarea class="form-control text-capitalize" id="description" rows="3"
+                                name="description"><%= product_info.description || "" %></textarea>
+                        </div>
 
-        <% if (update) { %>
-            <a href="/items" class="btn btn-danger btn-large">Cancel</a>
-            <button class="btn btn-primary btn-large">Update Product</button>
-        <% } else { %>
-            <button class="btn btn-primary btn-large">Add Product</button>
-        <% } %>
-    </form>
+                        <div class="mb-3">
+                            <label for="category" class="form-label text-primary">Category:</label>
+                            <select class="form-select text-capitalize" name="category" id="category">
+                                <option value="">Select product category ...</option>
+                                <% if (category){ %>
+                                    <% category.forEach((cat)=> { %> <% const
+                                            product_name=cat.name.split(" ").map((el)=>el.charAt(0).toUpperCase() + el.slice(1)).join(" ") %>
+                        <option value=" <%=cat._id %>" <%= cat.selected ? 'selected' : '' %>><%= product_name %>
+                                                    </option>
+                                                    <% }) %>
+                                                        <% } %>
+                            </select>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="price" class="form-label text-primary">Price:</label>
+                                <input type="number" class="form-control" id="price" min="1" name="price"
+                                    value="<%= product_info.price || '' %>" />
+                            </div>
+                            <div class="col">
+                                <label for="number_in_stock" class="form-label text-primary">No. in Stock:</label>
+                                <input type="number" class="form-control" id="number_in_stock" min="0"
+                                    name="number_in_stock" value="<%= product_info.number_in_stock || '' %>" />
+                            </div>
+                        </div>
+
+                        <% if (update) { %>
+                            <div class="row mb-5">
+                                <div class="col-md-3 d-flex justify-content-center">
+                                    <% if (product_info.product_secure_url) { %>
+                                        <div class="img_update p-2 d-flex align-items-center justify-content-center">
+                                            <img src="<%= product_info.product_secure_url %>" class="rounded-circle"
+                                                alt="Current Image"
+                                                style="height: 150px; width: 150px; object-fit: cover;">
+                                        </div>
+                                        <% } %>
+                                </div>
+                                <div class="col-md-9 d-flex align-items-center">
+                                    <div class="w-100">
+                                        <div class="mb-3">
+                                            <input type="checkbox" id="removeImage" name="removeImage"
+                                                onclick="toggleImageUpload()">
+                                            <label for="removeImage" class="form-label text-primary">Change Product
+                                                Image</label>
+                                        </div>
+
+                                        <input type="file" accept="image/*" class="form-control" id="avatar"
+                                            name="avatar" disabled />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <% } else { %>
+                                <div class="mb-5">
+                                    <label for="avatar" class="form-label text-primary">Category Image:</label>
+                                    <input type="file" accept="image/*" class="form-control" id="avatar"
+                                        name="avatar" />
+                                </div>
+                                <% } %>
+
+
+
+                                    <% if (update) { %>
+                                        <!-- <a href="/products" class="btn btn-primary btn-large">Update Product</a>
+                                        <a href="/items" class="btn btn-danger btn-large">Cancel</a> -->
+
+                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                            <a href="/products" class="btn btn-primary">Update</a>
+                                            <a href="/items" class="btn btn-danger">Cancel</a>
+                                          </div>
+                                        <% } else { %>
+                                            <button class="btn btn-primary btn-large">Add Product</button>
+                                            <% } %>
+                    </form>
 </div>
+
+<script>
+    function toggleImageUpload() {
+        const removeCheckbox = document.getElementById('removeImage');
+        const fileInput = document.getElementById('avatar');
+
+        if (removeCheckbox && removeCheckbox.checked) {
+            fileInput.disabled = false;
+        } else {
+            fileInput.disabled = true;
+        }
+    }
+</script>

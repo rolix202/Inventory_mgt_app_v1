@@ -21,6 +21,7 @@ export const index = asyncHandler(async (req, res, next) => {
         {
             $project: {
                 name: 1,
+                description: 1,
                 category_image_secure_id: 1,
                 itemCount: {
                     $size: "$items"
@@ -33,11 +34,9 @@ export const index = asyncHandler(async (req, res, next) => {
         category.url = `/categories/${category._id}`
     })
 
-    const products = await Item.find({}, "name price number_in_stock product_secure_url").populate("category", "name").sort({name: 1}).exec()
     res.render("homepage/index", { 
-        layout: false,
+        title: "Dashboard",
         categories: categoriesWithCount,
-        products
     })
 })
 
