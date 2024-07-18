@@ -21,20 +21,19 @@ const upload = multer({
         if (isMimeTypeValid && isExtNameValid){
             cb(null, true)
         } else {
-            cb(new Error("Image upload failed or Invalid file type.", false))
+            cb(new Error("Invalid file type. Only JPEG, JPG, and PNG are allowed.", false))
         }
     },
     limits: { fileSize: 1024 * 1024 * 5 }
 })
 
 const fileUpload = (field_name) => (req, res, next) => {
-
+    req.body.updateImage && req.file
     upload.single(field_name)(req, res, function(err){
         if (err instanceof multer.MulterError || err){
             req.fileValidationError = err.message;
-        } else if (!req.file){
-            req.fileValidationError = "Please upload an image file."
-        }
+        } 
+        
         next()
     })
 }

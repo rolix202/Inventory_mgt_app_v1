@@ -67,8 +67,6 @@
   }
   
   .category {
-    background-color: #609DAB;
-    color: white;
     font-size: 13px;
     padding: 3px 15px;
     border-radius: 100px;
@@ -102,7 +100,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
   }
-  .add_to_cart button{
+  .add_to_cart button, .add_to_cart a, .p_name a{
     font-family: 'Sans-serif', cursive;
   }
   .logo{
@@ -132,4 +130,12 @@
     border-radius: 50%;
     height: 160px;
     width: 160px;
+  }
+  .update_btn{
+    background-color: #ADD8E6;
+    color: #00008B;
+  }
+  .cancel_btn{
+    background-color: #FFA07A;
+    color: #8B0000;
   }

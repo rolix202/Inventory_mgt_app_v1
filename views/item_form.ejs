@@ -61,9 +61,9 @@
                                 <div class="col-md-9 d-flex align-items-center">
                                     <div class="w-100">
                                         <div class="mb-3">
-                                            <input type="checkbox" id="removeImage" name="removeImage"
+                                            <input type="checkbox" id="updateImage" name="updateImage"
                                                 onclick="toggleImageUpload()">
-                                            <label for="removeImage" class="form-label text-primary">Change Product
+                                            <label for="updateImage" class="form-label text-primary">Change Product
                                                 Image</label>
                                         </div>
 
@@ -82,13 +82,11 @@
                                 <% } %>
 
 
-
+                                <hr>
                                     <% if (update) { %>
-                                        <!-- <a href="/products" class="btn btn-primary btn-large">Update Product</a>
-                                        <a href="/items" class="btn btn-danger btn-large">Cancel</a> -->
 
-                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                            <a href="/products" class="btn btn-primary">Update</a>
+                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+                                            <button class="btn btn-primary">Update</button>
                                             <a href="/items" class="btn btn-danger">Cancel</a>
                                           </div>
                                         <% } else { %>
@@ -99,10 +97,10 @@
 
 <script>
     function toggleImageUpload() {
-        const removeCheckbox = document.getElementById('removeImage');
+        const updateCheckbox = document.getElementById('updateImage');
         const fileInput = document.getElementById('avatar');
 
-        if (removeCheckbox && removeCheckbox.checked) {
+        if (updateCheckbox && updateCheckbox.checked) {
             fileInput.disabled = false;
         } else {
             fileInput.disabled = true;

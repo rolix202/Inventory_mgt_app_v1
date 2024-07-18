@@ -44,6 +44,10 @@ export const item_create_post = [
             errorsArray.push({ msg: req.fileValidationError })
         }
 
+        if (!req.file && !req.fileValidationError) {
+            errorsArray.push({ msg: "Please upload an image file." });
+        }
+
         const allCategory = await Category.find({}, "name").exec();
 
         for (const category of allCategory) {
@@ -185,12 +189,33 @@ export const item_update_post = [
             })
         }
 
-        if (req.file){
+        if (req.body.updateImage){
             try {
-                const prev_info = await Item.find({_id: req.params.id}, "product_public_id").exec()
+                const prev_info = await Item.findById(req.params.id, "product_public_id").exec()
 
-                await cloudinary.v2.uploader.destroy(prev_info.product_public_id)
+                if (prev_info.product_public_id){
+                    await cloudinary.v2.uploader.destroy(prev_info.product_public_id)
+                }
 
+                product_info.product_public_id = undefined;
+                product_info.product_secure_url = undefined;
+
+            } catch (removeError) {
+
+                await fs.promises.unlink(req.file.path)
+                
+                return res.render("item_form", {
+                    title: "Update Product",
+                    product_info,
+                    category: allCategory,
+                    update: true,
+                    errors: [{ msg: "Failed to update image. Try again!" }]
+                });
+            }
+        }
+
+        if (req.body.updateImage && req.file){
+            try {
                 const response = await cloudinary.v2.uploader.upload(req.file.path, {
                     folder: "Inventory_web_app"
                 })
@@ -208,16 +233,15 @@ export const item_update_post = [
                     product_info,
                     category: allCategory,
                     update: true,
-                    errors: [{ msg: "Image upload failed. Try again!" }]
+                    errors: [{ msg: "Failed to update product. Try again!" }]
                 })
             }
         }
 
         try {
-            const updated_product = new Item(product_info)
+            const updated_product = await Item.findByIdAndUpdate(req.params.id, product_info)
 
-            await updated_product.save()
-            res.redirect(product.url)
+            res.redirect(updated_product.url)
         } catch (dbError) {
             if (product_info.product_public_id) {
                 await cloudinary.v2.uploader.destroy(product_info.product_public_id)
