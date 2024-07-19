@@ -97,7 +97,10 @@ export const item_create_post = [
 
             await product.save()
 
-            res.redirect(product.url)
+            // res.redirect(product.url)
+
+            req.flash('success', 'Product successfully Added!')
+            res.redirect('/items')
         } catch (dbError) {
 
             if (product_info.product_public_id) {
@@ -115,9 +118,32 @@ export const item_create_post = [
     })
 ]
 
-export const item_delete = (req, res, next) => {
-    res.send("Delete Item")
-}
+export const item_delete = asyncHandler(async(req, res, next) => {
+    const product = await Item.findById(req.params.id)
+    
+    if (!product){
+        const err = new Error("Product not found!") 
+        err.status = 404
+        return next(err)
+    }
+
+    try {
+        if(product.product_public_id){
+            await cloudinary.v2.uploader.destroy(product.product_public_id)
+        }
+
+        await Item.findByIdAndDelete(product._id)
+
+        req.flash('deleted_message', 'Product successfully deleted!')
+        res.redirect('/items')
+        
+    } catch (deleteError) {
+        console.log(deleteError);
+        req.flash('error', 'Failed to delete product. Try again!')
+        res.redirect('/items')
+    }
+    
+}) 
 
 export const item_update_get = asyncHandler(async (req, res, next) => {
 
@@ -203,7 +229,7 @@ export const item_update_post = [
             } catch (removeError) {
 
                 await fs.promises.unlink(req.file.path)
-                
+
                 return res.render("item_form", {
                     title: "Update Product",
                     product_info,
@@ -264,7 +290,6 @@ export const item_one_get = (req, res, next) => {
 
 export const item_all_get = asyncHandler(async (req, res, next) => {
 
-    // const products = await Item.find().sort({ name: 1 }).populate("category", "name")
     const products = await Item.find({}, "name price number_in_stock product_secure_url").populate("category", "name").sort({name: 1}).exec()
 
     if (products === null) {
@@ -273,9 +298,16 @@ export const item_all_get = asyncHandler(async (req, res, next) => {
         return next(err)
     }
 
+    const messages = req.flash('success')
+    const errors = req.flash('error')
+    const delete_msg = req.flash('deleted_message')
+
     res.render("product_catalog", {
         title: "All Products",
-        products
+        products,
+        messages,
+        errors,
+        delete_msg
     })
 })
 

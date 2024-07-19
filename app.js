@@ -8,7 +8,9 @@ import expressLayouts from 'express-ejs-layouts';
 import mongoose from 'mongoose';
 import * as dotenv from "dotenv";
 dotenv.config()
-import cloudinary from "cloudinary"
+import cloudinary from "cloudinary";
+import session from 'express-session';
+import flash from "connect-flash";
 
 import indexRouter from "./routes/index.js";
 import productRouter from "./routes/productRouter.js"
@@ -50,6 +52,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: "I love programming @123",
+  resave: false,
+  saveUninitialized: true
+}))
+app.use(flash())
 
 app.use('/', indexRouter);
 app.use('/products', productRouter);

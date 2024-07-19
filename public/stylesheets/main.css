@@ -103,6 +103,10 @@
   .add_to_cart button, .add_to_cart a, .p_name a{
     font-family: 'Sans-serif', cursive;
   }
+  .add_to_cart button:hover, .add_to_cart a:hover{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+  }
   .logo{
     background-color: none !important;
   }
