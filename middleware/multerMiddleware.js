@@ -28,7 +28,7 @@ const upload = multer({
 })
 
 const fileUpload = (field_name) => (req, res, next) => {
-    req.body.updateImage && req.file
+    
     upload.single(field_name)(req, res, function(err){
         if (err instanceof multer.MulterError || err){
             req.fileValidationError = err.message;

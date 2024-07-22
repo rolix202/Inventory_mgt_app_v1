@@ -18,7 +18,8 @@ export const item_create_get = asyncHandler(async (req, res, next) => {
         category,
         product_info: {},
         update: false,
-        errors: []
+        errors: [],
+        item: false
     })
 })
 
@@ -65,7 +66,8 @@ export const item_create_post = [
                 product_info,
                 category: allCategory,
                 update: false,
-                errors: errorsArray
+                errors: errorsArray,
+                item: false
             })
         }
 
@@ -87,6 +89,7 @@ export const item_create_post = [
                     product_info,
                     category: allCategory,
                     update: false,
+                    item: false,
                     errors: [{ msg: "Image upload failed. Try again!" }]
                 })
             }
@@ -112,6 +115,7 @@ export const item_create_post = [
                 product_info,
                 category: allCategory,
                 update: false,
+                item: false,
                 errors: [{ msg: "Failed to create category. Try again!" }]
             })
         }
@@ -166,7 +170,7 @@ export const item_update_get = asyncHandler(async (req, res, next) => {
         category: categories,
         update,
         errors: [],
-
+        item: false
     })
 })
 
@@ -211,7 +215,7 @@ export const item_update_post = [
                 category: allCategory,
                 update: true,
                 errors: errorsArray,
-        
+                item: false
             })
         }
 
@@ -235,6 +239,7 @@ export const item_update_post = [
                     product_info,
                     category: allCategory,
                     update: true,
+                    item: false,
                     errors: [{ msg: "Failed to update image. Try again!" }]
                 });
             }
@@ -259,6 +264,7 @@ export const item_update_post = [
                     product_info,
                     category: allCategory,
                     update: true,
+                    item: false,
                     errors: [{ msg: "Failed to update product. Try again!" }]
                 })
             }
@@ -278,15 +284,38 @@ export const item_update_post = [
                 product_info,
                 category: allCategory,
                 update: true,
+                item: false,
                 errors: [{ msg: "Failed to create category. Try again!" }]
             })
         }
     })
 ]
 
-export const item_one_get = (req, res, next) => {
-    res.send("each item get")
-}
+export const item_one_get = async (req, res, next) => {
+    try {
+        const product = await Item.findById(req.params.id).populate("category", "name").exec()
+
+        if (!product) {
+            req.flash('error', 'Product not found!');
+            return res.redirect('/items');
+        }
+
+        const title = product.name.split(" ").map((el) => el.charAt(0).toUpperCase() + el.slice(1)).join(" ")
+        const category = product.category.name
+
+        res.render('product_detail', {
+            title : category,
+            product,
+            item: true
+        });
+
+    } catch (error) {
+        req.flash('error', 'An error occurred while retrieving the product.');
+        res.redirect('/items');
+    }
+};
+
+
 
 export const item_all_get = asyncHandler(async (req, res, next) => {
 
@@ -307,7 +336,8 @@ export const item_all_get = asyncHandler(async (req, res, next) => {
         products,
         messages,
         errors,
-        delete_msg
+        delete_msg,
+        item: false
     })
 })
 

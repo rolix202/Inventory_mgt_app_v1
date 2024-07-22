@@ -37,11 +37,12 @@ export const index = asyncHandler(async (req, res, next) => {
     res.render("homepage/index", { 
         title: "Dashboard",
         categories: categoriesWithCount,
+        item: false
     })
 })
 
 export const category_create_get = (req, res, next) => {
-    res.render("category_form", { title: "Create New Product Category", category_details: {}, message: null, errors: [] })
+    res.render("category_form", { title: "Create New Product Category", category_details: {}, message: null, errors: [], item: false })
 }
 
 export const category_create_post = [
@@ -71,7 +72,8 @@ export const category_create_post = [
             return res.render("category_form", {
                 title: "Create New Product Category",
                 category_details: category_details,
-                errors: errorArray
+                errors: errorArray,
+                item: false
             });
         }
 
@@ -91,6 +93,7 @@ export const category_create_post = [
                 return res.render("category_form", {
                     title: "Create New Product Category",
                     category_details,
+                    item: false,
                     errors: [{ msg: "Image upload failed. Try again!" }]
                 });
             }
@@ -111,6 +114,7 @@ export const category_create_post = [
             return res.render("category_form", {
                 title: "Create New Product Category",
                 category_details,
+                item: false,
                 errors: [{ msg: errorMsg }],
             });
         }
