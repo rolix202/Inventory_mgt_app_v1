@@ -53,7 +53,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: "I love programming @123",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))
