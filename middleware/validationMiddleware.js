@@ -10,7 +10,6 @@ export const add_category_validation = [
         .notEmpty()
         .withMessage("Category description is required!")
         .trim()
-        .escape(),
 ]
 
 export const add_item_validation = [
@@ -22,8 +21,7 @@ export const add_item_validation = [
     body("description")
         .notEmpty()
         .withMessage("Product description is required!")
-        .trim()
-        .escape(),
+        .trim(),
     body("category")
         .notEmpty()
         .withMessage("Choose product category!")
@@ -39,4 +37,17 @@ export const add_item_validation = [
         .withMessage("Number of products in stock!")
         .trim()
         .escape(),
+]
+
+export const sign_up_validation = [
+    body("username")
+        .notEmpty()
+        .withMessage("Username is required!")
+        .trim()
+        .escape(),
+    body("password")
+        .notEmpty()
+        .withMessage("Password is required!")
+        .trim()
+        .escape()
 ]

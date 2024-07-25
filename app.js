@@ -11,11 +11,14 @@ dotenv.config()
 import cloudinary from "cloudinary";
 import session from 'express-session';
 import flash from "connect-flash";
+import passport from "./config/passportConfig.js"
 
 import indexRouter from "./routes/index.js";
 import productRouter from "./routes/productRouter.js"
 import categoryRouter from "./routes/categoryRouter.js"
 import itemRouter from "./routes/itemRouter.js"
+import { isUserLoggedIn } from './middleware/isUserLoggedIn.js';
+
 
 const app = express();
 
@@ -47,22 +50,33 @@ app.use(expressLayouts);
 app.set('layout', 'layout');
 
 
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true
-}))
-app.use(flash())
+
+app.use((req, res, next) => {
+  res.locals.error_msg = req.flash('error');
+  res.locals.success_msg = req.flash('success');
+  res.locals.user = req.user || null;
+  next();
+});
+
+
 
 app.use('/', indexRouter);
-app.use('/products', productRouter);
-app.use('/categories', categoryRouter)
-app.use('/items', itemRouter)
+app.use('/products', isUserLoggedIn, productRouter);
+app.use('/categories', isUserLoggedIn, categoryRouter)
+app.use('/items', isUserLoggedIn, itemRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

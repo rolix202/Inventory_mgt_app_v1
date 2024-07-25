@@ -7,9 +7,9 @@ router.route("/new")
     .get(category_create_get)
     .post(category_create_post);
 
-router.route("/:id")
-    .get(category_one_get)
-    .get(category_delete_get)
+router.get("/:id", category_one_get)
+
+router.get("/:id/delete", category_delete_get)
 
 router.route("/:id/edit")
     .get(category_update_get)

@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>
+
+<div class="content_wrapper mt-5">
+    <div class="form_wrapper w-25 m-auto">
+        <h2>Sign Up</h2>
+        <hr>
+
+        <% if (errors && errors.length > 0) { %>
+            <% errors.forEach((error) => { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error.msg %>
+                  </div>
+            <% }) %>
+        <% } %>
+
+        <form method="post">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="username" class="form-control" id="username" name="username">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+          </form>
+    </div>
+    
+</div>
+
+<%- include('../partials/footer') %>

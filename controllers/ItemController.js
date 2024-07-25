@@ -315,8 +315,6 @@ export const item_one_get = async (req, res, next) => {
     }
 };
 
-
-
 export const item_all_get = asyncHandler(async (req, res, next) => {
 
     const products = await Item.find({}, "name price number_in_stock product_secure_url").populate("category", "name").sort({name: 1}).exec()
@@ -330,6 +328,7 @@ export const item_all_get = asyncHandler(async (req, res, next) => {
     const messages = req.flash('success')
     const errors = req.flash('error')
     const delete_msg = req.flash('deleted_message')
+    const delete_product_msg = req.flash('error', "Category not empty! Delete the following products first!")
 
     res.render("product_catalog", {
         title: "All Products",
@@ -337,6 +336,7 @@ export const item_all_get = asyncHandler(async (req, res, next) => {
         messages,
         errors,
         delete_msg,
+        delete_product_msg,
         item: false
     })
 })

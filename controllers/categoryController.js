@@ -37,7 +37,7 @@ export const index = asyncHandler(async (req, res, next) => {
     res.render("homepage/index", { 
         title: "Dashboard",
         categories: categoriesWithCount,
-        item: false
+        item: false,
     })
 })
 
@@ -123,9 +123,36 @@ export const category_create_post = [
 ];
 
 
-export const category_delete_get = (req, res, next) => {
-    res.send("Category deletion")
-}
+export const category_delete_get = asyncHandler(async (req, res, next) => {
+    const [category, products] = await Promise.all([
+        Category.findById(req.params.id).exec(),
+        Item.find({category: req.params.id}).populate("category", "name").exec()
+    ])
+
+    let title = ""
+
+    products.forEach((product) => {
+        title = product.category.name
+    })
+
+    const delete_product_msg = req.flash('error', "Category not empty! Delete the following products first!")
+    const messages = req.flash('success')
+    const errors = req.flash('error')
+    const delete_msg = req.flash('deleted_message')
+
+
+    if (products.length > 0){
+        return res.render("product_catalog", {
+            title: title,
+            products,
+            messages,
+            errors,
+            delete_msg,
+            delete_product_msg,
+            item: false
+        })
+    }
+}) 
 
 export const category_update_get = (req, res, next) => {
     res.send("Update category get")
@@ -135,9 +162,36 @@ export const category_update_post = (req, res, next) => {
     res.send("Category update form")
 }
 
-export const category_one_get = (req, res, next) => {
-    res.send("Get a specific category")
-}
+export const category_one_get = asyncHandler(async (req, res, next) => {
+    const products = await Item.find({category: req.params.id}).populate("category", "name").exec()
+
+    if (!products) {
+        const err = new Error("No Products found!")
+        err.status = 404
+        return next(err)
+    }
+
+    let title = ""
+
+    products.forEach((product) => {
+        title = product.category.name
+    })
+
+    const messages = req.flash('success')
+    const errors = req.flash('error')
+    const delete_msg = req.flash('deleted_message')
+    const delete_product_msg = req.flash('error', "Category not empty! Delete the following products first!")
+
+    res.render("product_catalog", {
+        title: title,
+        products,
+        messages,
+        errors,
+        delete_msg,
+        delete_product_msg,
+        item: false
+    })
+}) 
 
 export const category_all_get = (req, res, next) => {
     res.send("Get all category")

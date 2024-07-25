@@ -1,6 +1,7 @@
 <%- include('partials/header') %>
 
-<%- include('partials/nav_header') %>
+<% if (user) { %>
+  <%- include('partials/nav_header') %>
   
   <div class="container-fluid">
     <div class="row">
@@ -12,7 +13,7 @@
           <% if (item) { %>
             <p><span class="titlee fst-italic p-1 bg-primary rounded text-white">Category:</span> <%= title %></p> 
           <% } else { %>
-              <h1 class="titlee"><%= title %> </h1>
+              <h1 class="titlee text-capitalize"><%= title %> </h1>
           <% } %>
         </div>
 
@@ -24,3 +25,4 @@
   </div>
 
   <%- include('partials/footer') %>
+<% } %>
