@@ -17,7 +17,33 @@ router.route("/login")
         successRedirect: '/',
         failureRedirect: '/login',
         failureFlash: true,
-      }))
+    }));
+
+    router.get('/login/guest', (req, res, next) => {
+        passport.authenticate('guest', (err, user, info) => {
+            if (err) {
+                console.error("Authentication error:", err);
+                return next(err);
+            }
+            if (!user) {
+                console.error("Guest user not found");
+                console.log(user);
+                return res.redirect('/login');
+            }
+            req.logIn(user, (err) => {
+                if (err) {
+                    console.error("Error logging in:", err);
+                    return next(err);
+                }
+                console.log("Logged in as guest:", user);
+                req.flash('success', 'Logged in as a guest.');
+                return res.redirect('/');
+            });
+        })(req, res, next);
+    });
+    
+
+
 
 /* GET home page. */
 router.get('/', isUserLoggedIn, index);
